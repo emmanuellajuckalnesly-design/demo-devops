@@ -1,9 +1,114 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Test DevOps</title>
+<title>Roulette de Chance</title>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    text-align: center;
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+  
+  h1 {
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  .wheel {
+    width: 300px;
+    height: 300px;
+    margin: 0 auto 30px;
+    border-radius: 50%;
+    border: 8px solid #667eea;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    font-weight: bold;
+    color: white;
+    transition: transform 0.1s;
+    background: conic-gradient(
+      red 0deg 60deg,
+      yellow 60deg 120deg,
+      blue 120deg 180deg,
+      green 180deg 240deg,
+      orange 240deg 300deg,
+      purple 300deg 360deg
+    );
+  }
+  
+  .wheel.spinning {
+    animation: spin 1s linear;
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  button {
+    background-color: #667eea;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #764ba2;
+  }
+  
+  .result {
+    margin-top: 20px;
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
+  }
+</style>
 </head>
 <body>
-<h1>Bienvenue dans le pipeline DevOps</h1>
+<div class="container">
+  <h1>🎡 Roulette de Chance</h1>
+  <div class="wheel" id="wheel">🎰</div>
+  <button onclick="spinWheel()">Tourner la roulette</button>
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+  const outcomes = ['🎁 Gagné !', '❌ Perdu', '🍀 Chance', '💰 Jackpot !', '😢 Raté', '⭐ Étoile'];
+  
+  function spinWheel() {
+    const wheel = document.getElementById('wheel');
+    const result = document.getElementById('result');
+    
+    wheel.classList.add('spinning');
+    result.textContent = '';
+    
+    setTimeout(() => {
+      wheel.classList.remove('spinning');
+      const randomIndex = Math.floor(Math.random() * outcomes.length);
+      result.textContent = outcomes[randomIndex];
+    }, 1000);
+  }
+</script>
 </body>
 </html>
