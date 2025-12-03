@@ -3,111 +3,344 @@
 <head>
 <title>Roulette de Chance</title>
 <style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
   body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
+    min-height: 100vh;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
   }
   
   .container {
-    text-align: center;
     background: white;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    padding: 60px 40px;
+    border-radius: 25px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 700px;
+    width: 100%;
   }
   
   h1 {
-    color: #333;
-    margin-bottom: 30px;
+    color: #667eea;
+    margin-bottom: 5px;
+    font-size: 48px;
+    font-weight: 700;
+  }
+  
+  .subtitle {
+    color: #999;
+    margin-bottom: 40px;
+    font-size: 16px;
+    font-weight: 300;
+  }
+  
+  .stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 50px;
+    gap: 20px;
+  }
+  
+  .stat-box {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    padding: 25px;
+    border-radius: 15px;
+    flex: 1;
+    color: white;
+    box-shadow: 0 10px 25px rgba(245, 87, 108, 0.3);
+  }
+  
+  .stat-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    opacity: 0.9;
+    font-weight: 600;
+  }
+  
+  .stat-value {
+    font-size: 36px;
+    font-weight: 700;
+  }
+  
+  .wheel-wrapper {
+    position: relative;
+    width: 380px;
+    height: 380px;
+    margin: 40px auto;
+    perspective: 1000px;
+  }
+  
+  .pointer {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 35px solid #667eea;
+    z-index: 10;
+    filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.2));
   }
   
   .wheel {
-    width: 300px;
-    height: 300px;
-    margin: 0 auto 30px;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     border: 8px solid #667eea;
+    background: conic-gradient(
+      #FF6B6B 0deg 60deg,
+      #4ECDC4 60deg 120deg,
+      #45B7D1 120deg 180deg,
+      #96CEB4 180deg 240deg,
+      #FFD93D 240deg 300deg,
+      #A8E6CF 300deg 360deg
+    );
+    box-shadow: 
+      0 15px 40px rgba(0, 0, 0, 0.2),
+      inset 0 0 30px rgba(255, 255, 255, 0.2),
+      0 0 0 1px rgba(102, 126, 234, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 36px;
-    font-weight: bold;
-    color: white;
-    transition: transform 0.1s;
-    background: conic-gradient(
-      red 0deg 60deg,
-      yellow 60deg 120deg,
-      blue 120deg 180deg,
-      green 180deg 240deg,
-      orange 240deg 300deg,
-      purple 300deg 360deg
-    );
+    position: relative;
+    transform-origin: center;
+    transition: transform 0.05s linear;
   }
   
   .wheel.spinning {
-    animation: spin 1s linear;
+    animation: spin 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
   
   @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(2160deg); }
   }
+  
+  .wheel-center {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background: white;
+    border-radius: 50%;
+    border: 6px solid #667eea;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    z-index: 5;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  .segment {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 45px;
+  }
+  
+  .segment1 { transform: rotate(30deg) translateY(-110px) rotate(-30deg); }
+  .segment2 { transform: rotate(90deg) translateY(-110px) rotate(-90deg); }
+  .segment3 { transform: rotate(150deg) translateY(-110px) rotate(-150deg); }
+  .segment4 { transform: rotate(210deg) translateY(-110px) rotate(-210deg); }
+  .segment5 { transform: rotate(270deg) translateY(-110px) rotate(-270deg); }
+  .segment6 { transform: rotate(330deg) translateY(-110px) rotate(-330deg); }
   
   button {
-    background-color: #667eea;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
-    padding: 15px 40px;
+    padding: 16px 50px;
     font-size: 18px;
-    border-radius: 8px;
+    font-weight: 700;
+    border-radius: 50px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
   
-  button:hover {
-    background-color: #764ba2;
+  button:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(102, 126, 234, 0.6);
+  }
+  
+  button:active:not(:disabled) {
+    transform: translateY(-1px);
+  }
+  
+  button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
   }
   
   .result {
-    margin-top: 20px;
-    font-size: 24px;
-    color: #333;
-    font-weight: bold;
+    margin-top: 40px;
+    min-height: 120px;
+  }
+  
+  .result-title {
+    font-size: 13px;
+    color: #999;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  
+  .result-box {
+    display: none;
+    padding: 30px;
+    border-radius: 15px;
+    font-size: 36px;
+    font-weight: 700;
+    animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  .result-box.show {
+    display: block;
+  }
+  
+  @keyframes popIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .win {
+    background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+    color: #0a5c2f;
+    border: 3px solid #0a5c2f;
+  }
+  
+  .lose {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    color: #c41e3a;
+    border: 3px solid #c41e3a;
   }
 </style>
 </head>
 <body>
 <div class="container">
   <h1>🎡 Roulette de Chance</h1>
-  <div class="wheel" id="wheel">🎰</div>
-  <button onclick="spinWheel()">Tourner la roulette</button>
-  <div class="result" id="result"></div>
+  <p class="subtitle">Essaie ta chance et découvre ce que tu gagnes !</p>
+  
+  <div class="stats">
+    <div class="stat-box">
+      <div class="stat-label">Victoires</div>
+      <div class="stat-value" id="wins">0</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Défaites</div>
+      <div class="stat-value" id="losses">0</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Solde</div>
+      <div class="stat-value" id="balance">0€</div>
+    </div>
+  </div>
+  
+  <div class="wheel-wrapper">
+    <div class="pointer"></div>
+    <div class="wheel" id="wheel">
+      <div class="segment segment1">🎁</div>
+      <div class="segment segment2">🌊</div>
+      <div class="segment segment3">💧</div>
+      <div class="segment segment4">🍀</div>
+      <div class="segment segment5">💰</div>
+      <div class="segment segment6">⭐</div>
+      <div class="wheel-center">🎰</div>
+    </div>
+  </div>
+  
+  <button onclick="spinWheel()" id="spinBtn">Tourner la roulette</button>
+  
+  <div class="result">
+    <div class="result-title">Résultat</div>
+    <div class="result-box" id="result"></div>
+  </div>
 </div>
 
 <script>
-  const outcomes = ['🎁 Gagné !', '❌ Perdu', '🍀 Chance', '💰 Jackpot !', '😢 Raté', '⭐ Étoile'];
+  const outcomes = [
+    { emoji: '🎁', text: 'Gagné 100€ !', type: 'win', amount: 100 },
+    { emoji: '🌊', text: 'Perdu 50€', type: 'lose', amount: -50 },
+    { emoji: '💧', text: 'Chance ! +75€', type: 'win', amount: 75 },
+    { emoji: '🍀', text: 'Bonus ! +150€', type: 'win', amount: 150 },
+    { emoji: '💰', text: 'Jackpot ! +250€', type: 'win', amount: 250 },
+    { emoji: '⭐', text: 'Raté ! -30€', type: 'lose', amount: -30 }
+  ];
+  
+  let wins = 0;
+  let losses = 0;
+  let balance = 0;
+  let isSpinning = false;
   
   function spinWheel() {
+    if (isSpinning) return;
+    
     const wheel = document.getElementById('wheel');
     const result = document.getElementById('result');
+    const spinBtn = document.getElementById('spinBtn');
     
-    wheel.classList.add('spinning');
-    result.textContent = '';
+    isSpinning = true;
+    spinBtn.disabled = true;
+    result.classList.remove('show');
+    
+    const randomIndex = Math.floor(Math.random() * outcomes.length);
+    const outcome = outcomes[randomIndex];
+    const baseRotation = randomIndex * 60;
+    const extraRotation = Math.random() * 60;
+    const totalRotation = baseRotation + extraRotation + 2160;
+    
+    wheel.style.animation = 'none';
+    setTimeout(() => {
+      wheel.style.animation = `spin 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`;
+      wheel.style.transform = `rotate(${totalRotation}deg)`;
+    }, 10);
     
     setTimeout(() => {
-      wheel.classList.remove('spinning');
-      const randomIndex = Math.floor(Math.random() * outcomes.length);
-      result.textContent = outcomes[randomIndex];
-    }, 1000);
+      if (outcome.type === 'win') {
+        wins++;
+        document.getElementById('wins').textContent = wins;
+      } else {
+        losses++;
+        document.getElementById('losses').textContent = losses;
+      }
+      
+      balance += outcome.amount;
+      document.getElementById('balance').textContent = balance + '€';
+      
+      result.textContent = `${outcome.emoji} ${outcome.text}`;
+      result.className = `result-box show ${outcome.type}`;
+      
+      isSpinning = false;
+      spinBtn.disabled = false;
+    }, 4000);
   }
 </script>
 </body>
